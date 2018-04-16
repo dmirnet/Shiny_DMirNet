@@ -14,7 +14,7 @@ library(parallel)
 library(ParallelPC)
 library(DT)
 library(checkpoint)
-library(xml)
+library(XML)
 
 #R Files 
 source('ui/directoryInput.R') #source https://github.com/wleepang/shiny-directory-input/
