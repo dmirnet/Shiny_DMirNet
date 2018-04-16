@@ -21,4 +21,7 @@ There are two ways of installing DMirNet
 ```R
 shiny::runGitHub('Shiny_DMirNet','dmirnet')
 ```
-* By downloading the source code: Download the zip file of Shiny_DMirNet and extract the source file. Then run global.R, ui.R, or server. R source files. 
+* By downloading the source code: Download the zip file of Shiny_DMirNet and extract the source file. Then run global.R, ui.R, or server. R source files. To run the source file, run the following script
+```R
+source("<path of the source file>/global.R")
+```
