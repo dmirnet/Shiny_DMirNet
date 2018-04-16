@@ -128,9 +128,7 @@ Extopk_mimR <- function(cormat,topk,num_miR){
 ### Validation ### 
 
 ## Validate the targets of a miRNA
-# This function is originated from the miRLab Package.(https://www.bioconductor.org/packages/release/bioc/html/miRLAB.html)
-library(miRLAB)
-# use Validation() in miRLAB package
+
 Validation=function(topkList, valdata_csv){
   
   # Preprocessing the list of topk results 
@@ -231,4 +229,3 @@ bootstrap <- function(data, direct_fun, ensemble_fun, sample.percentage, iterati
   }
   return(boot_ens_result)
 }
-
