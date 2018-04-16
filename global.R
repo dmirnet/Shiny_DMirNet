@@ -1,4 +1,6 @@
-Sys.setlocale(category = 'LC_ALL', 'English')
+if(Sys.info()['sysname']=='Windows'){
+  Sys.setlocale(category = 'LC_ALL', 'English')
+ }
 #Libararies 
 library(shiny)
 library(shinythemes)
