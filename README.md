@@ -8,6 +8,7 @@ The following application must be installed to run DMirNet.
 ### Installing
 The following R packages must be install to run Shiny_DMirNet. Run the following scripts to install the packages.
 ```R
+install.packages("shiny")
 install.packages("checkpoint")
 source("https://bioconductor.org/biocLite.R")
 biocLite("graph")
