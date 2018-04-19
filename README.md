@@ -30,5 +30,5 @@ source("<path of the source file>/global.R")
 DMirNet is provided under a free-of-charge, open-source license (A-GPL3). All we require is that you cite/attribute the following in any work that benefits from this code or application.
 ### Citing the Web Application
 Minsu Lee, Anene Bekuma Terefe, HyungJune Lee, and Sangyoon Oh, "DMirNet: Shiny-based application for exploring direct microRNA-mRNA associations", Bioinformatics (Under Review)
-### Citing the R package 
+### Citing the DMirNet framework 
 Minsu Lee and HyungJune Lee, (2016) "DMirNet: Inferring direct microRNA-mRNA association networks", BMC Systems Biology, 10(suppl5):125. 
