@@ -1,5 +1,5 @@
 if(Sys.info()['sysname']=='Windows'){
-  Sys.setlocale(category = 'LC_ALL', 'English')
+  Sys.setlocale(category = 'LC_ALL', 'Korean')
  }
 checkpoint::checkpoint("2018-01-01")
 #Libararies 
