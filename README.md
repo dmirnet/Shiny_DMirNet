@@ -10,9 +10,9 @@ The following R packages must be install to run Shiny_DMirNet. Run the following
 ```R
 install.packages("shiny")
 install.packages("checkpoint")
+install.packages("pcalg")
 source("https://bioconductor.org/biocLite.R")
 biocLite("graph")
-source("https://bioconductor.org/biocLite.R")
 biocLite("RBGL")
 ```
 ## Running Shiny_DMirNet
