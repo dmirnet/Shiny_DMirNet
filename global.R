@@ -1,4 +1,16 @@
-Sys.setlocale(category = 'LC_ALL', 'English')
+if(Sys.info()['sysname']=='Windows'){
+  Sys.setlocale(category = 'LC_ALL', 'English')
+ }
+inst_pack=0
+if(file.exists("~/.checkpoint")){
+	inst_pack=1
+}
+checkpoint::checkpoint("2018-01-01")
+if(inst_pack==0){
+	source("https://bioconductor.org/biocLite.R")
+	biocLite("graph")
+	biocLite("RBGL")
+}
 #Libararies 
 library(shiny)
 library(shinythemes)
@@ -10,6 +22,8 @@ library(pcalg)
 library(rlist)
 library(parallel)
 library(ParallelPC)
+library(DT)
+
 
 #R Files 
 source('ui/directoryInput.R') #source https://github.com/wleepang/shiny-directory-input/
@@ -37,5 +51,6 @@ cores=iterations=miRNAs=dataset=sample.percentage=NULL
 
 #description for experment 
 readme_view1=readme_view2=readme_view3=readme_view4=NULL
+
 
 
