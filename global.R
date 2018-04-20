@@ -8,8 +8,7 @@ if(file.exists("~/.checkpoint")){
 checkpoint::checkpoint("2018-01-01")
 if(inst_pack==0){
 	source("https://bioconductor.org/biocLite.R")
-	biocLite("graph")
-	biocLite("RBGL")
+	biocLite("miRLAB")
 }
 #Libararies 
 library(shiny)
@@ -18,7 +17,6 @@ library(shinyjs)
 library(ggplot2)
 library(corpcor)
 library(space)
-library(pcalg)
 library(rlist)
 library(parallel)
 library(ParallelPC)
