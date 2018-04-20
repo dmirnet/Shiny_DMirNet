@@ -1,7 +1,4 @@
-if(Sys.info()['sysname']=='Windows'){
-  Sys.setlocale(category = 'LC_ALL', 'English')
- }
-checkpoint::checkpoint("2018-01-01")
+Sys.setlocale(category = 'LC_ALL', 'English')
 #Libararies 
 library(shiny)
 library(shinythemes)
@@ -13,8 +10,6 @@ library(pcalg)
 library(rlist)
 library(parallel)
 library(ParallelPC)
-library(DT)
-
 
 #R Files 
 source('ui/directoryInput.R') #source https://github.com/wleepang/shiny-directory-input/
