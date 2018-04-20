@@ -1,15 +1,14 @@
 if(Sys.info()['sysname']=='Windows'){
   Sys.setlocale(category = 'LC_ALL', 'English')
  }
-inst_pack=0
-if(file.exists("~/.checkpoint")){
-	inst_pack=1
-}
 checkpoint::checkpoint("2018-01-01")
-if(inst_pack==0){
+if(!file.exists("~/.checkpoint/RGBL")){
+	source("https://bioconductor.org/biocLite.R")
+	biocLite("RBGL")
+}
+if(!file.exists("~/.checkpoint/graph")){
 	source("https://bioconductor.org/biocLite.R")
 	biocLite("graph")
-	biocLite("RGBL")
 }
 #Libararies 
 library(shiny)
@@ -23,7 +22,6 @@ library(rlist)
 library(parallel)
 library(ParallelPC)
 library(DT)
-
 
 #R Files 
 source('ui/directoryInput.R') #source https://github.com/wleepang/shiny-directory-input/
