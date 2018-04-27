@@ -5,7 +5,7 @@ instal_chk=0
 if(!file.exists("~/.checkpoint")){
 	instal_chk=1
 }
-checkpoint::checkpoint("2018-04-01")
+checkpoint::checkpoint("2018-01-01")
 if(instal_chk==1){
 	source("https://bioconductor.org/biocLite.R")
 	biocLite("RBGL")
