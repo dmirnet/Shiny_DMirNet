@@ -1,13 +1,14 @@
 if(Sys.info()['sysname']=='Windows'){
   Sys.setlocale(category = 'LC_ALL', 'English')
  }
+instal_chk=0
+if(!file.exists("~/.checkpoint")){
+	instal_chk=1
+}
 checkpoint::checkpoint("2018-01-01")
-if(!file.exists("~/.checkpoint/RGBL")){
+if(instal_chk==1){
 	source("https://bioconductor.org/biocLite.R")
 	biocLite("RBGL")
-}
-if(!file.exists("~/.checkpoint/graph")){
-	source("https://bioconductor.org/biocLite.R")
 	biocLite("graph")
 }
 #Libararies 
