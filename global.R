@@ -3,7 +3,7 @@ if(Sys.info()['sysname']=='Windows'){
  }
 instal_chk=0
 day="2018-04-29"
-if(!file.exists(paste("~/.checkpoint",day))){
+if(!file.exists(paste("~/.checkpoint/",day))){
 	instal_chk=1
 }
 checkpoint::checkpoint(day)
