@@ -19,6 +19,7 @@ library(ggplot2)
 library(corpcor)
 library(space)
 library(pcalg)
+library(parallel)
 library(ParallelPC)
 library(DT)
 
