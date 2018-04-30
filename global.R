@@ -2,10 +2,11 @@ if(Sys.info()['sysname']=='Windows'){
   Sys.setlocale(category = 'LC_ALL', 'English')
  }
 instal_chk=0
-if(!file.exists("~/.checkpoint")){
+day="2018-04-29"
+if(!file.exists(paste("~/.checkpoint",day))){
 	instal_chk=1
 }
-checkpoint::checkpoint("2018-04-29")
+checkpoint::checkpoint(day)
 if(instal_chk==1){
 	source("https://bioconductor.org/biocLite.R")
 	biocLite("RBGL")
