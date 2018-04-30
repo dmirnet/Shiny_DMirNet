@@ -2,18 +2,18 @@
 ensemble_files<-function(data_list,type,irm_topk,filename,colname){
   Result=NULL
   if(type=="ensemble_irm_mean"){
-    irm_result <- IRM(list.cbind(data_list),"mean")
+    irm_result <- IRM(do.call(cbind,data_list),"mean")
     Result <- uptri2mat(colname, irm_result)
   }
   else if(type=="ensemble_irm_median"){
-    irm_result <- IRM(list.cbind(data_list),"median")
+    irm_result <- IRM(do.call(cbind,data_list),"median")
     Result <- uptri2mat(colname, irm_result)
   }
   else if(type=="ensemble_topk_mean"){
-    irm_result <- IRM_topk(list.cbind(data_list),irm_topk,"mean")
+    irm_result <- IRM_topk(do.call(cbind,data_list),irm_topk,"mean")
     Result <- uptri2mat(colname, irm_result)
   }else{
-    irm_result <- IRM_topk(list.cbind(data_list),irm_topk,"median")
+    irm_result <- IRM_topk(do.call(cbind,data_list),irm_topk,"median")
     Result <- uptri2mat(colname, irm_result)
   }
   write_file(Result,paste0(dir_ensemble,filename))
