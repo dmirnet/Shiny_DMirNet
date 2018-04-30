@@ -4,7 +4,7 @@ Shiny-based Web application for exploring direct microRNA-mRNA associations from
 These instructions will get you a copy of the web application up and running on your local machine for development and testing purposes.
 ### Prerequisites
 The following application must be installed to run DMirNet.
-* [R](https://cran.r-project.org/) 
+* [R Software](https://cran.r-project.org/) 
 ### Installing
 The following R packages must be install to run Shiny_DMirNet. Run the following scripts to install the packages.
 ```R
