@@ -114,8 +114,7 @@ directoryInput = function(inputId, label, value = NULL) {
               id = sprintf('%s__chosen_dir', inputId),
               value = value,
               type = 'text',
-              class = 'form-control directory-input-chosen-dir',
-              readonly = 'readonly'
+              class = 'form-control directory-input-chosen-dir'
             )
           )
         ),
