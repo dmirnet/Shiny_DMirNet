@@ -2,7 +2,7 @@ if(Sys.info()['sysname']=='Windows'){
   Sys.setlocale(category = 'LC_ALL', 'English')
  }
 instal_chk=0
-if(!file.exists(paste0("~/.checkpoint/","2018-04-29"))){
+if(!file.exists("~/.checkpoint/2018-04-29")){
 	instal_chk=1
 }
 checkpoint::checkpoint("2018-04-29")
