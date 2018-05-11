@@ -5,7 +5,6 @@ These instructions will get you a copy of the web application up and running on 
 ### Prerequisites
 The following application must be installed to run DMirNet.
 * [R Software](https://cran.r-project.org/) 
-### Installing
 The following R packages must be install to run Shiny_DMirNet. Run the following scripts to install the packages.
 ```R
 install.packages("shiny")
