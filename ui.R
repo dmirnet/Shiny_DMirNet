@@ -43,7 +43,7 @@ shinyUI(
                                     hidden(
                                       div( id="boot_div",
                                            numericInput("iteration","Iteration","50",min =2, max=100,000),
-                                           sliderInput("rate","Sample rate (%)","98",min=1,max=100),
+                                           sliderInput("rate","Sampling rate (%)","98",min=1,max=100),
                                            radioButtons('bootstrap_method','Select Bootstrapping Method',choiceNames = c("Simple aggregation-Mean","Simple aggregation-Median","Topk aggregation-Mean","Topk aggregation-Median"), choiceValues = c("bootstrap_irm_mean","bootstrap_irm_median","bootstrap_topk_mean","bootstrap_topk_median"),selected = "bootstrap_irm_mean"),
                                            numericInput("bootstrap_topk","Number of Top K","100",min =1, max=1189)
                                       )
@@ -195,7 +195,7 @@ shinyUI(
                              column(6,
                                     height="30%",
                                     numericInput("miRNAs","Number of miRNAs","35",min =1, max=1189),
-                                    radioButtons("analysis_criteria","Criterion for Selecting High-Ranked Pairs",choiceNames = c("Select top m pairs:","Select top m mRNAs for each miRNA"),choiceValues=c("analysis_mpairs","analysis_mmpairs"),selected="analysis_mpairs"),
+                                    radioButtons("analysis_criteria","Criterion for Selecting Highly-Ranked Pairs",choiceNames = c("Select top m pairs:","Select top m mRNAs for each miRNA"),choiceValues=c("analysis_mpairs","analysis_mmpairs"),selected="analysis_mpairs"),
                                     numericInput("analysis_topk","top m:","100",min =1, max=1189),
                                     actionButton('run_analysis',"Run", class="btn btn-success")
                              ),
@@ -237,13 +237,13 @@ shinyUI(
                                     style = "overflow-y:scroll; max-height: 320px",
                                     div(
                                       id="result_validation",
-                                      h4("Select an output file to be validated"),
+                                      h4("Select which output file to validate"),
                                       radioButtons('validation_file',NULL,choices =list("NULL"))
                                     )
                              ),
                              column(6,
                                     height="30%",
-                                    fileInput("validationdata",label = "Select a Data for Result Validation",placeholder = "",
+                                    fileInput("validationdata",label = "Select a Dataset for Validating the Results",placeholder = "",
                                               accept=c('.csv','.xls','.xlsx')
                                               
                                     ),
