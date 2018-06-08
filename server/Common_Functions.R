@@ -136,7 +136,7 @@ Validation=function(topkList, valdata_csv){
   if(nrow(topkList)<1) stop("No data in the input")
   
   # Read the validation data from file 
-  dt=read.csv(valdata_csv, header=TRUE, sep=",")
+  dt=valdata_csv
   
   # Get the validation lists from the data
   dt = paste(dt[, 1], dt[, 2], sep=" ");
@@ -155,7 +155,8 @@ Validation=function(topkList, valdata_csv){
     result[,3]=as.numeric(as.character(result[,3]))
     NoConfimred=nrow(result)
   }
-  return(list(result, NoConfimred))
+  return (result)
+  #return(list(result, NoConfimred))
 }
 
 
