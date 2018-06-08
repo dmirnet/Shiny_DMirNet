@@ -32,6 +32,7 @@ source("server/Setup_Working_Directory.R")
 source("server/File_read_and_Write.R")
 source("ui.R")
 source("server.R")
+source("sample_datasets/Sample_31miRNAs_1151mRNAs_expr.csv")
 
 
 #Global variables 
