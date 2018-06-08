@@ -21,7 +21,7 @@ shinyUI(
                                       radioButtons('wd_list',"Choose Experiment",choices = c("None"))
                                     ),
                                     fileInput("dataset",label = "*Select Dataset",placeholder = "Sample_31miRNAs_1151mRNAs_expr.csv",
-                                              accept=c('.xls','.xlsx','.csv'),width = '85%'
+                                              accept=c('.xls','.xlsx','.csv'),width = '65%'
                                     ),
                                     selectInput("cores","Number of cores",choices =(1:noCores),selected = "1",multiple = FALSE,
                                                 selectize = TRUE, width = '60%'),
