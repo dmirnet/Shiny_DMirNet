@@ -20,8 +20,8 @@ shinyUI(
                                       h4("List of Experments"),
                                       radioButtons('wd_list',"Choose Experiment",choices = c("None"))
                                     ),
-                                    fileInput("dataset",label = "*Select Dataset",placeholder = "Sample_dataset.csv",
-                                              accept=c('.xls','.xlsx','.csv'),width = '60%'
+                                    fileInput("dataset",label = "*Select Dataset",placeholder = "Sample_31miRNAs_1151mRNAs_expr.csv",
+                                              accept=c('.xls','.xlsx','.csv'),width = '85%'
                                     ),
                                     selectInput("cores","Number of cores",choices =(1:noCores),selected = "1",multiple = FALSE,
                                                 selectize = TRUE, width = '60%'),
@@ -146,7 +146,7 @@ shinyUI(
                              column(6,
                                     id="ensemble_2",
                                     radioButtons('ensemble','Ensemble Method ',choiceNames = c("Simple aggregation – Mean","Simple aggregation – Median","Top k aggregation – Mean","Top k aggregation – Median"), choiceValues= c("ensemble_irm_mean","ensemble_irm_median","ensemble_topk_mean","ensemble_topk_median"),selected = "ensemble_irm_mean"),
-                                    numericInput("irm_topk","Number of Top K","100",min =1, max=1189),
+                                    numericInput("irm_topk","Number of Top K","10000",min =1),
                                     actionButton('run_ensemble',"Ensemble", class="btn btn-success")
                                    
                              ),
@@ -194,9 +194,9 @@ shinyUI(
                              ),
                              column(6,
                                     height="30%",
-                                    numericInput("miRNAs","Number of miRNAs","35",min =1, max=1189),
+                                    numericInput("miRNAs","Number of miRNAs","10",min =1, max=1189),
                                     radioButtons("analysis_criteria","Criterion for Selecting Highly-Ranked Pairs",choiceNames = c("Select top m pairs:","Select top m mRNAs for each miRNA"),choiceValues=c("analysis_mpairs","analysis_mmpairs"),selected="analysis_mpairs"),
-                                    numericInput("analysis_topk","Top m:","100",min =1, max=1189),
+                                    numericInput("analysis_topk","Top m:","1000",min =1, max=1189),
                                     actionButton('run_analysis',"Run", class="btn btn-success")
                              ),
                              div(
@@ -243,7 +243,7 @@ shinyUI(
                              ),
                              column(6,
                                     height="30%",
-                                    fileInput("validationdata",label = "Select a Dataset for Validating the Results",placeholder = "",
+                                    fileInput("validationdata",label = "Select a Dataset for Validating the Results",placeholder = "Sample_ValidationDataset.csv",
                                               accept=c('.csv','.xls','.xlsx')
                                               
                                     ),

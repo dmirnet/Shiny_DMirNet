@@ -41,7 +41,7 @@ shinyServer(function(input, output,session) {
           progress_iteration=0.5
         }
         #Read data and scale 
-        data<<-Read_Scale(dataset,root_dir)
+        data<<-Read_Scale(dataset,paste0(root_dir,"/sample_datasets/"))
         ### Step 1. Perform experiment Direct corelation and bootstrapping ###
         #corpcor 
         if(input$corpcor){
@@ -168,18 +168,14 @@ shinyServer(function(input, output,session) {
           setwd(dir_direct_bootstrap_uppertri)
           result_files=list.files(pattern ="\\.csv$",recursive = FALSE)
           i=1
-          col=0
           file_name=list()
           while(i<=length(result_files)){
             file_name[[i]] <-result_files[i]
-            col=max(col,ncol(result_files[i]) )
             i <- i + 1
           }
           if(i==1){
             file_name[[1]]<-"None"
-            col=1189
           }
-          updateNumericInput(session,'irm_topk',label="Number of Top K",value="100",min=1,max=col)
           updateCheckboxGroupInput(session,'ag_list',label=NULL,choices = file_name,selected = c(file_name[1],file_name[2]))
           setwd(temp)
           result_show("tab2")
@@ -334,15 +330,23 @@ shinyServer(function(input, output,session) {
   observeEvent(input$run_validation,{
     withProgress(message = 'Computing DMirNet...', style="notification", value = 0.01, {
       setProgress(value = NULL, message =NULL , detail = "Performing validation for selected file",session = session)
-      tryCatch({
+      #tryCatch({
         temp=getwd()
         disable("run_validation")
         setwd(dir_analysis)
+        val_dataset=input$validationdata$datapath
+        if (is.null(val_dataset)){
+          val_dataset=paste0(root_dir,"/sample_datasets/Sample_ValidationDataset.csv")
+          val_dataset_name="Sample_ValidationDataset.csv"
+        }else{
+          val_dataset_name=basename(val_dataset)
+        }
+        dataset_validation=read.csv( val_dataset, header=TRUE, sep=",")
         data_validation=read_file(input$validation_file,FALSE)
         incProgress(0.5)
-        result_validation(data_validation,input$validationdata$datapath,input$validation_file)
+        result_validation(data_validation,dataset_validation,input$validation_file)
         #write description
-        content=c(paste0("Validation_of_",input$validation_file,":-Data used for Result Validation=",basename(input$validationdata$datapath)))
+        content=c(paste0("Validation_of_",input$validation_file,":-Data used for Result Validation=",val_dataset_name))
         write_description_append(dir_validation,"readme.txt",content)
         setwd(temp)
         setProgress(value = NULL, message =NULL , detail = "Preparing Result",session = session)
@@ -350,15 +354,15 @@ shinyServer(function(input, output,session) {
         enable("run_validation")
         incProgress(1)
         Sys.sleep(2)
-      },error=function(cond){
-        showModal(modalDialog(
-          title = "ERROR!",
-          paste0("No matching record found",cond),
-          easyClose=TRUE,
-          fade=TRUE))
-      },finally = {
-        enable("run_validation")
-      })
+      # },error=function(cond){
+      #   showModal(modalDialog(
+      #     title = "ERROR!",
+      #     paste0("No matching record found",cond),
+      #     easyClose=TRUE,
+      #     fade=TRUE))
+      # },finally = {
+      #   enable("run_validation")
+      # })
     })
   }) 
   
@@ -560,7 +564,7 @@ shinyServer(function(input, output,session) {
       if(!is.null(input$dataset$datapath)){
         dat<-read.csv(input$dataset$datapath, header=TRUE, sep=",")
       }else{
-        dat<-read.csv(paste0(root_dir,"//Sample_dataset.csv"), header=TRUE, sep=",")  
+        dat<-read.csv(paste0(root_dir,"/sample_datasets/Sample_31miRNAs_1151mRNAs_expr.csv"), header=TRUE, sep=",")  
       }
       l1=(1/sqrt(nrow(dat))*qnorm(1-1/(2*ncol(dat)^2)))*nrow(dat)*.161
       updateNumericInput(session,'lam1',label="lam1",value=l1,min=1,max=10)
@@ -604,11 +608,6 @@ shinyServer(function(input, output,session) {
       disable("run_analysis")
     }else{
       enable("run_analysis")
-    }
-    if(input$validation_file=="NULL" ||is.null(input$validationdata$datapath)){
-      disable("run_validation")
-    }else{
-      enable("run_validation")
     }
   })
   
