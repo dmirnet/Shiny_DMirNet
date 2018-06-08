@@ -3,7 +3,7 @@
 shinyServer(function(input, output,session) {
   #Observe Run Button
   observeEvent(input$run,{
-    #tryCatch({
+    tryCatch({
       #run progress
       withProgress(message = 'Computing DMirNet...', style="notification", value = 0.01, {
         #Get the values of input parameters
@@ -42,7 +42,6 @@ shinyServer(function(input, output,session) {
         }
         #Read data and scale 
         data<<-Read_Scale(dataset,root_dir)
-        print(data)
         ### Step 1. Perform experiment Direct corelation and bootstrapping ###
         #corpcor 
         if(input$corpcor){
@@ -143,15 +142,15 @@ shinyServer(function(input, output,session) {
         incProgress(0.1)
         Sys.sleep(1)
       })#end of progress 
-    # },error=function(cond){
-    #   showModal(modalDialog(
-    #     title = "ERROR!",
-    #     paste0("Unable to perform experment.Please try again. Error detail=",cond),
-    #     easyClose=TRUE,
-    #     fade=TRUE))
-    # },finally = {
-    #   enable("page")
-    # })#end of tryCatch
+     },error=function(cond){
+       showModal(modalDialog(
+         title = "ERROR!",
+         paste0("Unable to perform experment.Please try again. Error detail=",cond),
+         easyClose=TRUE,
+         fade=TRUE))
+     },finally = {
+       enable("page")
+     })#end of tryCatch
   })#end of run observer
   
   #Observer for tab selection
