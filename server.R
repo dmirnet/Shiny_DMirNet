@@ -3,7 +3,7 @@
 shinyServer(function(input, output,session) {
   #Observe Run Button
   observeEvent(input$run,{
-    tryCatch({
+    #tryCatch({
       #run progress
       withProgress(message = 'Computing DMirNet...', style="notification", value = 0.01, {
         #Get the values of input parameters
@@ -41,7 +41,8 @@ shinyServer(function(input, output,session) {
           progress_iteration=0.5
         }
         #Read data and scale 
-        data<<-Read_Scale(dataset,paste0(root_dir,"/sample_datasets/"))
+        data<<-Read_Scale(dataset,root_dir)
+        print(data)
         ### Step 1. Perform experiment Direct corelation and bootstrapping ###
         #corpcor 
         if(input$corpcor){
@@ -142,15 +143,15 @@ shinyServer(function(input, output,session) {
         incProgress(0.1)
         Sys.sleep(1)
       })#end of progress 
-    },error=function(cond){
-      showModal(modalDialog(
-        title = "ERROR!",
-        paste0("Unable to perform experment.Please try again. Error detail=",cond),
-        easyClose=TRUE,
-        fade=TRUE))
-    },finally = {
-      enable("page")
-    })#end of tryCatch
+    # },error=function(cond){
+    #   showModal(modalDialog(
+    #     title = "ERROR!",
+    #     paste0("Unable to perform experment.Please try again. Error detail=",cond),
+    #     easyClose=TRUE,
+    #     fade=TRUE))
+    # },finally = {
+    #   enable("page")
+    # })#end of tryCatch
   })#end of run observer
   
   #Observer for tab selection
@@ -330,7 +331,7 @@ shinyServer(function(input, output,session) {
   observeEvent(input$run_validation,{
     withProgress(message = 'Computing DMirNet...', style="notification", value = 0.01, {
       setProgress(value = NULL, message =NULL , detail = "Performing validation for selected file",session = session)
-      #tryCatch({
+      tryCatch({
         temp=getwd()
         disable("run_validation")
         setwd(dir_analysis)
@@ -354,15 +355,15 @@ shinyServer(function(input, output,session) {
         enable("run_validation")
         incProgress(1)
         Sys.sleep(2)
-      # },error=function(cond){
-      #   showModal(modalDialog(
-      #     title = "ERROR!",
-      #     paste0("No matching record found",cond),
-      #     easyClose=TRUE,
-      #     fade=TRUE))
-      # },finally = {
-      #   enable("run_validation")
-      # })
+      },error=function(cond){
+        showModal(modalDialog(
+          title = "ERROR!",
+          paste0("No matching record found",cond),
+          easyClose=TRUE,
+          fade=TRUE))
+      },finally = {
+        enable("run_validation")
+      })
     })
   }) 
   
