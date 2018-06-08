@@ -2,8 +2,8 @@
 Read_Scale<-function(dataset,root){
   data=NULL
   if(is.null(dataset)){
-    file=paste0(root,"//Sample_dataset.csv")
-    data<-read.csv(file, header=TRUE, sep=",",encoding = "UTF-8")
+    file=paste0(root,"//sample_datasets/Sample_31miRNAs_1151mRNAs_expr.csv")
+    data<-read.csv(file, header=TRUE, sep=",")
   }
   else{
     data=read.csv(dataset, header=TRUE, sep=",")
