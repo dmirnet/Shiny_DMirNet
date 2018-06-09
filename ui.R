@@ -44,7 +44,7 @@ shinyUI(
                                       div( id="boot_div",
                                            numericInput("iteration","Iteration","50",min =2, max=100,000),
                                            sliderInput("rate","Sampling rate (%)","98",min=1,max=100),
-                                           radioButtons('bootstrap_method','Select Bootstrapping Method',choiceNames = c("Simple aggregation-Mean","Simple aggregation-Median","Topk aggregation-Mean","Topk aggregation-Median"), choiceValues = c("bootstrap_irm_mean","bootstrap_irm_median","bootstrap_topk_mean","bootstrap_topk_median"),selected = "bootstrap_irm_mean"),
+                                           radioButtons('bootstrap_method','Select Bootstrapping Method',choiceNames = c("Simple aggregation-Mean","Simple aggregation-Median","Top k aggregation-Mean","Top k aggregation-Median"), choiceValues = c("bootstrap_irm_mean","bootstrap_irm_median","bootstrap_topk_mean","bootstrap_topk_median"),selected = "bootstrap_irm_mean"),
                                            numericInput("bootstrap_topk","Number of Top K","100",min =1, max=1189)
                                       )
                                     )
@@ -195,7 +195,7 @@ shinyUI(
                              column(6,
                                     height="30%",
                                     numericInput("miRNAs","Number of miRNAs","10",min =1, max=1189),
-                                    radioButtons("analysis_criteria","Criterion for Selecting Highly-Ranked Pairs",choiceNames = c("Select top m pairs:","Select top m mRNAs for each miRNA"),choiceValues=c("analysis_mpairs","analysis_mmpairs"),selected="analysis_mpairs"),
+                                    radioButtons("analysis_criteria","Criterion for Selecting Highly-Ranked Pairs",choiceNames = c("Select Top m pairs:","Select Top m mRNAs for each miRNA"),choiceValues=c("analysis_mpairs","analysis_mmpairs"),selected="analysis_mpairs"),
                                     numericInput("analysis_topk","Top m:","1000",min =1, max=1189),
                                     actionButton('run_analysis',"Run", class="btn btn-success")
                              ),
