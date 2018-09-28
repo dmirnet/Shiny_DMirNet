@@ -12,7 +12,7 @@ shinyServer(function(input, output,session) {
         sample.percentage<<-as.numeric(input$rate)/100
         miRNAs<<-as.numeric(input$miRNAs)
         dataset<<-input$dataset$datapath
-        set.seed(as.numeric(input$seed))
+        seed_num<<-as.numeric(input$seed)
         dir=as.character(readDirectoryInput(session, 'directory'))
         dir=normalizePath(dir)
         working_dir<<-paste0(dir,"/DMirNet_Data/")
@@ -720,6 +720,17 @@ shinyServer(function(input, output,session) {
           "The input file contains empty column names. Please select the correct dataset"
         ))
       }
+      dat=NULL
+      if(!is.null(input$dataset$datapath)){
+        dat<-read.csv(input$dataset$datapath, header=TRUE, sep=",")
+      }else{
+        dat<-read.csv(paste0(root_dir,"/sample_datasets/Sample_31miRNAs_1151mRNAs_expr.csv"), header=TRUE, sep=",")  
+      }
+      l1=(1/sqrt(nrow(dat))*qnorm(1-1/(2*ncol(dat)^2)))*nrow(dat)*.161
+      updateNumericInput(session,'lam1',label="lam1",value=l1,min=1,max=10)
+      col=ncol(dat)
+      row=nrow(dat)
+      updateNumericInput(session,'weight',label="weight for each data point",value=0,min=0,max=row)
     }
   })
   observeEvent(input$validationdata,{
