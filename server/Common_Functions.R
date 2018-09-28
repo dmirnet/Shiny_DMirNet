@@ -188,10 +188,10 @@ bootstrap <- function(data, direct_fun, ensemble_fun, sample.percentage, iterati
   if (typeof(ensemble_fun) != "character"){
     stop("You must provide the character name of the ensemble method you want to ensemble. For instance, fun=\"IRM\"")
   }
-  rand.seed=seed_num
+  rand_seed=seed_num
   # Bootstrapping function
-  funWrapper <- function(rand.seed, fun, data, sample.percentage,params, ...){
-    set.seed(rand.seed)
+  funWrapper <- function(rand_seed, fun, data, sample.percentage,params, ...){
+    set.seed(rand_seed)
     sampledData <- data[sample(1:nrow(data),round(sample.percentage * nrow(data))),]
     net=NULL
     if(direct_fun=="buildCorpcor"){
