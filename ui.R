@@ -23,9 +23,31 @@ shinyUI(
                                     fileInput("dataset",label = "*Select Dataset",placeholder = "Sample_31miRNAs_1151mRNAs_expr.csv",
                                               accept=c('.xls','.xlsx','.csv'),width = '65%'
                                     ),
-                                    selectInput("cores","Number of cores",choices =(1:noCores),selected = "1",multiple = FALSE,
-                                                selectize = TRUE, width = '60%'),
-                                    numericInput("seed","Seed",value = 123)
+                                    radioButtons("parallel_method","Choose a parallelism method for running the experiment",choiceNames = c("Cluster of Cores","Cluster of Computers"),choiceValues = c("core","server"), selected = "core"),
+                                    hidden(
+                                      div(id="no_cores",
+                                      selectInput("cores","Number of cores",choices =(1:noCores),selected = "1",multiple = FALSE,
+                                                  selectize = TRUE, width = '60%')
+                                      )
+                                    ),
+                                    hidden(
+                                      div(id="no_machines",
+                                        tags$div( 
+                                        class="input-group control-group after-add-more",
+                                        tags$p("Enter the number of Computers"),
+                                        tags$input(type="number",required="required", style="width:70%!important;",value="1", name= "addmore",class="form-control"),
+                                        br(),
+                                        tags$div(  
+                                         actionLink("addbtn","Add Computers",class="btn btn-default")
+                                          ),
+                                        br()
+                                        )
+                                       ),
+                                        disabled(
+                                          textAreaInput("host_input","List of added computers",value = "Warning: Please add all the computers hostname",width ="150%", rows =4)
+                                        )
+                                      
+                                    )
                              ),
                              column(3,
                                     height="30%",
@@ -43,6 +65,7 @@ shinyUI(
                                     hidden(
                                       div( id="boot_div",
                                            numericInput("iteration","Iteration","50",min =2, max=100,000),
+                                           numericInput("seed","Seed",value = 123),
                                            sliderInput("rate","Sampling rate (%)","98",min=1,max=100),
                                            radioButtons('bootstrap_method','Select Bootstrapping Method',choiceNames = c("Simple aggregation-Mean","Simple aggregation-Median","Top k aggregation-Mean","Top k aggregation-Median"), choiceValues = c("bootstrap_irm_mean","bootstrap_irm_median","bootstrap_topk_mean","bootstrap_topk_median"),selected = "bootstrap_irm_mean"),
                                            numericInput("bootstrap_topk","Number of Top K","100",min =1, max=1189)

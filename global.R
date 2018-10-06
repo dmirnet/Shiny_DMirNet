@@ -46,13 +46,17 @@ Result_Corpcor=NULL
 dir_experment=dir_direct_bootstrap=dir_ensemble=dir_analysis=dir_validation=dir_direct_bootstrap_uppertri=NULL
 
 #expermental parameters
-cores=iterations=miRNAs=dataset=sample.percentage=NULL 
+cores=iterations=miRNAs=dataset=sample.percentage=clusters=NULL 
 
 #description for experment 
 readme_view1=readme_view2=readme_view3=readme_view4=NULL
 
 #seed number
 seed_num=NULL
+#dynamic input counter
+count=1
+run_disable=TRUE
+
 
 
 
