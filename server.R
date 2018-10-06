@@ -59,7 +59,7 @@ shinyServer(function(input, output,session) {
         if(input$corpcor){
           if(input$bootstrap_action=="Disable"){
             setProgress(value = NULL, message =NULL , detail = "Performing Corpcor Direct corelation",session = session)
-            buildCorpcor(data,input$lambda)
+            #buildCorpcor(data,input$lambda)
             incProgress(progress_iteration)
           }else{
             setProgress(value = NULL, message =NULL , detail = "Bootstrapping with Corpcor",session = session)
@@ -821,12 +821,13 @@ shinyServer(function(input, output,session) {
   observeEvent(input$addbtn,{
     count<<-1
     html_txt=NULL
-    input_names<<-NULL
+    updateTextAreaInput(session,"host_input","List of added computers",value = "Warning: Please add all the computer's hostname of the computers")
+    disable('run')
+    run_disable<<-TRUE
     while (count<=input$addmore) {
       html_txt=paste(html_txt,'<input type="text" style="width=60%!important;" name="addmore',sep ="")
       html_txt=paste(html_txt,count,sep="")
       html_txt=paste(html_txt,'"class="form-control" placeholder="Enter the hostname of the computer"/><br>',sep = "")
-      input_names[count]<<-paste("addmore",count,sep = "")
       count<<-count+1
     }
     showModal( modalDialog(
@@ -850,7 +851,7 @@ shinyServer(function(input, output,session) {
         break
       }else{
         hosts=paste(hosts,i,sep = "  ")
-        hosts=paste(hosts,") ",sep = "")
+        hosts=paste(hosts,")",sep = "")
         hosts=paste(hosts,as.character(input[[val]]),sep="")
       }
       i=i+1
