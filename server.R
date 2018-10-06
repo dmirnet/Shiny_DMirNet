@@ -851,7 +851,7 @@ shinyServer(function(input, output,session) {
         break
       }else{
         hosts=paste(hosts,i,sep = "  ")
-        hosts=paste(hosts,")",sep = "")
+        hosts=paste(hosts,") ",sep = "")
         hosts=paste(hosts,as.character(input[[val]]),sep="")
       }
       i=i+1
