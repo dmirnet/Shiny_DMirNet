@@ -59,7 +59,7 @@ shinyServer(function(input, output,session) {
         if(input$corpcor){
           if(input$bootstrap_action=="Disable"){
             setProgress(value = NULL, message =NULL , detail = "Performing Corpcor Direct corelation",session = session)
-            #buildCorpcor(data,input$lambda)
+            buildCorpcor(data,input$lambda)
             incProgress(progress_iteration)
           }else{
             setProgress(value = NULL, message =NULL , detail = "Bootstrapping with Corpcor",session = session)
