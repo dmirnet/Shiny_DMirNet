@@ -7,19 +7,7 @@ shinyServer(function(input, output,session) {
       #run progress
       withProgress(message = 'Computing DMirNet...', style="notification", value = 0.01, {
         #Get the values of input parameters
-        if(input$parallel_method=="core"){
-          clusters<<-as.numeric(input$cores)
-        }else{
-          i=1
-          hosts=list()
-          while(i<=(count-1)){
-            val=paste("addmore",i,sep = "")
-            hosts=c(hosts,as.character(input[[val]]))
-            i=i+1
-          }
-          clusters<<-hosts
-        }
-        
+        cores<<-as.numeric(input$cores)
         iterations<<-as.numeric(input$iteration)
         sample.percentage<<-as.numeric(input$rate)/100
         miRNAs<<-as.numeric(input$miRNAs)
@@ -28,7 +16,7 @@ shinyServer(function(input, output,session) {
         dir=as.character(readDirectoryInput(session, 'directory'))
         dir=normalizePath(dir)
         working_dir<<-paste0(dir,"/DMirNet_Data/")
-        
+        cores_no(cores)
         #run the experment 
         disable("page")
         #check the run type and set the working directory
@@ -545,24 +533,7 @@ shinyServer(function(input, output,session) {
       wd_list_show(wd_dirs[1])
     }
   })
-  #Observer for the running methods
-  observeEvent(input$parallel_method,{
-    if(input$parallel_method=="core"){
-      enable('run')
-      shinyjs::show("no_cores")
-      shinyjs::hide("no_machines")
-      shinyjs::hide('host_input')
-    }else{
-      if(run_disable==TRUE){
-        disable('run')
-      }else{
-        enable('run')
-      }
-      shinyjs::show('host_input')
-      shinyjs::hide("no_cores")
-      shinyjs::show("no_machines")
-    } 
-  })
+
   #Observer for displaying Bootstrapping settings
   observeEvent(input$bootstrap_action,{
     if(input$bootstrap_action=="Enable"){
@@ -817,55 +788,4 @@ shinyServer(function(input, output,session) {
     updateTextAreaInput(session,"exp_readme","Expernment Description",value = "-")
     output$table_experment_result <- DT::renderDataTable(DT::datatable({NULL}))
   }
-  
-  observeEvent(input$addbtn,{
-    count<<-1
-    html_txt=NULL
-    updateTextAreaInput(session,"host_input","List of added computers",value = "Warning: Please add all the computer's hostname of the computers")
-    disable('run')
-    run_disable<<-TRUE
-    while (count<=input$addmore) {
-      html_txt=paste(html_txt,'<input type="text" style="width=60%!important;" name="addmore',sep ="")
-      html_txt=paste(html_txt,count,sep="")
-      html_txt=paste(html_txt,'"class="form-control" placeholder="Enter the hostname of the computer"/><br>',sep = "")
-      count<<-count+1
-    }
-    showModal( modalDialog(
-      title = "Add the hostname of computers",
-      HTML(html_txt),
-      footer = tagList(
-        modalButton("Cancel"),
-        actionButton("ok", "ADD", class="btn btn-success")
-      )
-       ))
-  })
-  
-  observeEvent(input$ok,{
-    removeModal()
-    i=1
-    hosts=NULL
-    while(i<=(count-1)){
-      val=paste("addmore",i,sep = "")
-      if((input[[val]])==""){
-        hosts=NULL
-        break
-      }else{
-        hosts=paste(hosts,i,sep = "  ")
-        hosts=paste(hosts,") ",sep = "")
-        hosts=paste(hosts,as.character(input[[val]]),sep="")
-      }
-      i=i+1
-    }
-    if(is.null(hosts)){
-      updateTextAreaInput(session,"host_input","List of added computers",value = "Warning: Please add all the computer's hostname of the computers")
-      disable('run')
-      run_disable<<-TRUE
-    }else{
-      enable('run')
-      run_disable<<-FALSE
-      updateTextAreaInput(session,"host_input","List of added computers",value = hosts)
-    }
-    shinyjs::show('host_input')
-  })
-  
 })
