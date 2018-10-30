@@ -208,7 +208,8 @@ bootstrap <- function(data, direct_fun, ensemble_fun, sample.percentage, iterati
   cl=makePSOCKcluster(cores)
   setDefaultCluster(cl)
   vars=list(direct_fun,"norm_mat","write_file","dir_direct_bootstrap","dir_direct_bootstrap_uppertri","pcor.shrink","space.joint","skeleton_stable","zStat","pcorOrder","pc_stable","gaussCItest","getNextSet","udag2pdagRelaxed","idaFast")
-  clusterExport(cl, vars, envir = .GlobalEnv)
+  clusterExport(cl, vars, envir = .GlobalEnv) 
+  clusterEvalQ(cl, library(c("pcalg","ggplot2","corpcor","space","parallel","ParallelPC","DT"))  
   result <- parLapply(cl, 1:iterations, funWrapper, fun, data, sample.percentage,params)	
   stopCluster(cl)
   # Run bootstrapping experiment
