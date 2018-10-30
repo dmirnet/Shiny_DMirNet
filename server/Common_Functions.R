@@ -209,7 +209,7 @@ bootstrap <- function(data, direct_fun, ensemble_fun, sample.percentage, iterati
   setDefaultCluster(cl)
   vars=list(direct_fun,"norm_mat","write_file","dir_direct_bootstrap","dir_direct_bootstrap_uppertri","pcor.shrink","space.joint","skeleton_stable","zStat","pcorOrder","pc_stable","gaussCItest","getNextSet","udag2pdagRelaxed","idaFast")
   clusterExport(cl, vars, envir = .GlobalEnv) 
-  clusterEvalQ(cl, library("pcalg"))
+  #clusterEvalQ(cl, library("pcalg"))
   clusterEvalQ(cl, library("ggplot2"))
   clusterEvalQ(cl, library("corpcor"))
   clusterEvalQ(cl, library("space"))  
