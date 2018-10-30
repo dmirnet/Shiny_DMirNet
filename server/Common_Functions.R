@@ -207,7 +207,7 @@ bootstrap <- function(data, direct_fun, ensemble_fun, sample.percentage, iterati
   }
   cl=makePSOCKcluster(cores)
   setDefaultCluster(cl)
-  vars=list(direct_fun,"norm_mat","write_file","dir_direct_bootstrap","dir_direct_bootstrap_uppertri","pcor.shrink","space.joint","log.q1pm","skeleton_stable","zStat","pcorOrder","invcor.shrink","pc_stable","gaussCItest","getNextSet","udag2pdagRelaxed","idaFast")
+  vars=list(direct_fun,"norm_mat","write_file","dir_direct_bootstrap","dir_direct_bootstrap_uppertri","pcor.shrink","space.joint","skeleton_stable","zStat","pcorOrder","invcor.shrink","pc_stable","gaussCItest","getNextSet","udag2pdagRelaxed","idaFast")
   clusterExport(cl, vars, envir = .GlobalEnv)  
   if(Sys.info()['sysname']=='Windows'){
     clusterEvalQ(cl = cl,expr = {
@@ -225,6 +225,8 @@ bootstrap <- function(data, direct_fun, ensemble_fun, sample.percentage, iterati
       library(DT,lib.loc = x)
       library(RBGL,lib.loc = x)
       library(graph,lib.loc = x)
+      library(parallel,lib.loc = x)
+      library(ParallelPC,lib.loc = x)
       })
   }   
   result <- parLapply(cl, 1:iterations, funWrapper, fun, data, sample.percentage,params)	
