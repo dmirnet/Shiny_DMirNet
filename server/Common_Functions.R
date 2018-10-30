@@ -207,9 +207,9 @@ bootstrap <- function(data, direct_fun, ensemble_fun, sample.percentage, iterati
   }
   cl=makePSOCKcluster(cores)
   setDefaultCluster(cl)
-  vars=list(direct_fun,"norm_mat","write_file","dir_direct_bootstrap","dir_direct_bootstrap_uppertri","pcor.shrink","space.joint","skeleton_stable","zStat","pcorOrder","invcor.shrink","pc_stable","gaussCItest","getNextSet","udag2pdagRelaxed","idaFast")
-  clusterExport(cl, vars, envir = .GlobalEnv)  
   if(Sys.info()['sysname']=='Windows'){
+    vars=list(direct_fun,"norm_mat","write_file","dir_direct_bootstrap","dir_direct_bootstrap_uppertri")
+    clusterExport(cl, vars, envir = .GlobalEnv) 
     clusterEvalQ(cl = cl,expr = {
       plat=version["platform"]
       plat=substring(plat,1)
@@ -227,6 +227,9 @@ bootstrap <- function(data, direct_fun, ensemble_fun, sample.percentage, iterati
       library(parallel,lib.loc = x)
       library(ParallelPC,lib.loc = x)
       })
+  }else{
+    vars=list(direct_fun,"norm_mat","write_file","dir_direct_bootstrap","dir_direct_bootstrap_uppertri","pcor.shrink","space.joint","invcor.shrink","pc_stable","gaussCItest","getNextSet","udag2pdagRelaxed","idaFast")
+    clusterExport(cl, vars, envir = .GlobalEnv)  
   }   
   result <- parLapply(cl, 1:iterations, funWrapper, fun, data, sample.percentage,params)	
   stopCluster(cl)
