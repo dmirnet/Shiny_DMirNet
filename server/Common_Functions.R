@@ -223,6 +223,8 @@ bootstrap <- function(data, direct_fun, ensemble_fun, sample.percentage, iterati
       library(space,lib.loc = x)
       library(pcalg,lib.loc = x)
       library(DT,lib.loc = x)
+      library(RBGL,lib.loc = x)
+      library(graph,lib.loc = x)
       })
   }   
   result <- parLapply(cl, 1:iterations, funWrapper, fun, data, sample.percentage,params)	
