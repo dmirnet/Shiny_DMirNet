@@ -224,7 +224,6 @@ bootstrap <- function(data, direct_fun, ensemble_fun, sample.percentage, iterati
       library(pcalg,lib.loc = x)
       library(DT,lib.loc = x)
       library(RBGL,lib.loc = x)
-      library(graph,lib.loc = x)
       library(parallel,lib.loc = x)
       library(ParallelPC,lib.loc = x)
       })
