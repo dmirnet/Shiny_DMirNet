@@ -207,7 +207,7 @@ bootstrap <- function(data, direct_fun, ensemble_fun, sample.percentage, iterati
   }
   cl=makePSOCKcluster(cores)
   setDefaultCluster(cl)
-  vars=list(direct_fun,"norm_mat","write_file","dir_direct_bootstrap","dir_direct_bootstrap_uppertri","pcor.shrink","space.joint","pc_stable","gaussCItest","getNextSet","udag2pdagRelaxed","idaFast")
+  vars=list(direct_fun,"norm_mat","write_file","dir_direct_bootstrap","dir_direct_bootstrap_uppertri","pcor.shrink","space.joint","skeleton_stable","pc_stable","gaussCItest","getNextSet","udag2pdagRelaxed","idaFast")
   clusterExport(cl, vars, envir = .GlobalEnv)
   result <- parLapply(cl, 1:iterations, funWrapper, fun, data, sample.percentage,params)	
   stopCluster(cl)
