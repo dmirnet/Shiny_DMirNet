@@ -210,7 +210,7 @@ bootstrap <- function(data, direct_fun, ensemble_fun, sample.percentage, iterati
   vars=list(direct_fun,"norm_mat","write_file","dir_direct_bootstrap","dir_direct_bootstrap_uppertri","pcor.shrink","space.joint","skeleton_stable","zStat","pcorOrder","invcor.shrink","pc_stable","gaussCItest","getNextSet","udag2pdagRelaxed","idaFast")
   clusterExport(cl, vars, envir = .GlobalEnv)
   checkpoint::checkpoint("2018-04-29")  
-  clusterEvalQ(cl, library("corpcor",lib.loc="~/.checkpoint/2018-04-29/lib/x86_64-w64-mingw32/3.5.1"))
+  clusterEvalQ(cl, library("corpcor"))
   #clusterEvalQ(cl, library("ggplot2"))
   #clusterEvalQ(cl, library("corpcor"))
   #clusterEvalQ(cl, library("space"))  
