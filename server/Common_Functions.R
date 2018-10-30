@@ -209,14 +209,22 @@ bootstrap <- function(data, direct_fun, ensemble_fun, sample.percentage, iterati
   setDefaultCluster(cl)
   vars=list(direct_fun,"norm_mat","write_file","dir_direct_bootstrap","dir_direct_bootstrap_uppertri","pcor.shrink","space.joint","skeleton_stable","zStat","pcorOrder","invcor.shrink","pc_stable","gaussCItest","getNextSet","udag2pdagRelaxed","idaFast")
   clusterExport(cl, vars, envir = .GlobalEnv)  
-  path_lib=.libPaths()[1]  
-  clusterEvalQ(cl, library("corpcor", lib.loc=path_lib))
-  #clusterEvalQ(cl, library("ggplot2"))
-  #clusterEvalQ(cl, library("corpcor"))
-  #clusterEvalQ(cl, library("space"))  
-  #clusterEvalQ(cl, library("parallel"))    
-  #clusterEvalQ(cl, library("ParallelPC"))  
-  #clusterEvalQ(cl, library("DT"))     
+  if(Sys.info()['sysname']=='Windows'){
+    clusterEvalQ(cl = cl,expr = {
+      plat=version["platform"]
+      plat=substring(plat,1)
+      ver=version["version.string"]
+      ver=substring(ver,11,15)
+      x=paste0("~/.checkpoint/2018-04-29/lib/",plat)
+      x=paste0(x,"/")
+      x=paste0(x,ver)
+      library(ggplot2,lib.loc = x)
+      library(corpcor,lib.loc = x)
+      library(space,lib.loc = x)
+      library(pcalg,lib.loc = x)
+      library(DT,lib.loc = x)
+      })
+  }   
   result <- parLapply(cl, 1:iterations, funWrapper, fun, data, sample.percentage,params)	
   stopCluster(cl)
   # Run bootstrapping experiment
