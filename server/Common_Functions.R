@@ -211,14 +211,7 @@ bootstrap <- function(data, direct_fun, ensemble_fun, sample.percentage, iterati
     vars=list(direct_fun,"norm_mat","write_file","dir_direct_bootstrap","dir_direct_bootstrap_uppertri")
     clusterExport(cl, vars, envir = .GlobalEnv) 
     clusterEvalQ(cl = cl,expr = {
-      plat=version["platform"]
-      plat=substring(plat,1)
-      ver=version["version.string"]
-      ver=substring(ver,11,15)
-      x=paste0("~/.checkpoint/2018-04-29/lib/",plat)
-      x=paste0(x,"/")
-      x=paste0(x,ver)
-      .libPaths(x)
+      .libPaths(lib_dir)
       library(ggplot2,lib.loc = x)
       library(corpcor,lib.loc = x)
       library(space,lib.loc = x)
