@@ -1,7 +1,16 @@
+lib_dir=NULL
 if(Sys.info()['sysname']=='Windows'){
   Sys.setlocale(category = 'LC_ALL', 'English')
+  plat=version["platform"]
+  plat=substring(plat,1)
+  ver=version["version.string"]
+  ver=substring(ver,11,15)
+  lib_dir<<-paste0("~/.checkpoint/2018-04-29/lib/",plat)
+  lib_dir<<-paste0(lib_dir,"/")
+  lib_dir<<-paste0(lib_dir,ver)
  }
 instal_chk=0
+
 if(!file.exists("~/.checkpoint/2018-04-29")){
 	instal_chk=1
 }
