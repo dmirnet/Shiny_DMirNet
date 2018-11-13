@@ -1,4 +1,3 @@
-lib_dir=NULL
 instal_chk=0
 if(Sys.info()['sysname']=='Windows'){
   Sys.setlocale(category = 'LC_ALL', 'English')
@@ -6,13 +5,13 @@ if(Sys.info()['sysname']=='Windows'){
   plat=substring(plat,1)
   ver=version["version.string"]
   ver=substring(ver,11,15)
-  lib_dir<<-paste0("~/.checkpoint/2018-04-29/lib/",plat)
-  lib_dir<<-paste0(lib_dir,"/")
-  lib_dir<<-paste0(lib_dir,ver)
+  lib_dir=paste0("~/.checkpoint/2018-04-29/lib/",plat)
+  lib_dir=paste0(lib_dir,"/")
+  lib_dir=paste0(lib_dir,ver)
   packg_rbg=paste0(lib_dir,"/RBGL")
   packg_graph=paste0(lib_dir,"/graph")
   if(!file.exists(packg_rbg) || !file.exists(packg_graph)){
-	instal_chk<<-1
+	instal_chk=1
     }
 }else{
   if(!file.exists("~/.checkpoint/2018-04-29")){
