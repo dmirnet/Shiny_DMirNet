@@ -20,7 +20,7 @@ shiny::runGitHub('Shiny_DMirNet','dmirnet')
 ```R
 source("<path of the source file>/global.R")
 ```
-> Note: A request for upgrading packages might appear when running the program for the first time. Since upgrading the packages might cause version incompatability issues, please don't upgrade the packages by selecting 'n' as shown below. 
+> Note: A request for upgrading packages might appear when running the program for the first time. Since upgrading the packages might cause version incompatability issues, please DO NOT upgrade the packages by selecting 'n' as shown below. 
 ```R
 Old packages: 'assertthat', 'BH', 'cli', 'clue', 'colorspace', 'curl',
   'digest', 'DT', 'ggplot2', 'glue', 'gmp', 'htmlwidgets', 'httpuv', 'igraph',
