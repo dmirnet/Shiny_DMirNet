@@ -20,7 +20,16 @@ shiny::runGitHub('Shiny_DMirNet','dmirnet')
 ```R
 source("<path of the source file>/global.R")
 ```
-
+> Note: A request for upgrading packages might appear when running the program for the first time. Since upgrading the packages might cause version incompatability issues, please don't upgrade the packages by selecting 'n' as shown below. 
+```R
+Old packages: 'assertthat', 'BH', 'cli', 'clue', 'colorspace', 'curl',
+  'digest', 'DT', 'ggplot2', 'glue', 'gmp', 'htmlwidgets', 'httpuv', 'igraph',
+  'jsonlite', 'later', 'lazyeval', 'mime', 'munsell', 'pcalg', 'pillar',
+  'pkgconfig', 'R6', 'Rcpp', 'RcppArmadillo', 'rlang', 'robustbase', 'scales',
+  'sfsmisc', 'shiny', 'shinythemes', 'stringi', 'stringr', 'tibble', 'utf8',
+  'V8', 'xtable', 'yaml', 'zoo'
+Update all/some/none? [a/s/n]: n
+```
 ## Citation
 DMirNet is provided under a free-of-charge, open-source license (A-GPL3). All we require is that you cite/attribute the following in any work that benefits from this code or application.
 ### Citing the Web Application
