@@ -3,7 +3,7 @@
 shinyServer(function(input, output,session) {
   #Observe Run Button
   observeEvent(input$run,{
-   # tryCatch({
+    tryCatch({
       #run progress
       withProgress(message = 'Computing DMirNet...', style="notification", value = 0.01, {
         #Get the values of input parameters
