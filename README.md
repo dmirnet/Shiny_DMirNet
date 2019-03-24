@@ -18,7 +18,8 @@ shiny::runGitHub('Shiny_DMirNet','dmirnet')
 ```
 * By downloading the source code: Download the zip file of Shiny_DMirNet and extract the source file. Then run global.R, ui.R, or server. R source files. To run the source file, run the following script
 ```R
-source("<path of the source file>/global.R")
+setwd("<path to Shiny_DMirNet root directory>/")
+shiny::runApp()
 ```
 > Note: A request for upgrading packages might appear when running the program for the first time. Since upgrading the packages might cause version incompatability issues, please DO NOT upgrade the packages by selecting 'n' as shown below. 
 ```R
