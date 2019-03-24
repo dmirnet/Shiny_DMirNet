@@ -202,6 +202,8 @@ bootstrap <- function(data, direct_fun, ensemble_fun, sample.percentage, iterati
       net=fun(sampledData,params[1],params[2],0)
     }else if(direct_fun=="buildIDA"){
       net=fun(sampledData,params[1],0)
+    }else if(direct_fun=="buildSilencing"){
+      net=fun(sampledData,params[1],params[2],params[3],0)
     }
     return(net[upper.tri(net)])
   }
@@ -231,6 +233,7 @@ bootstrap <- function(data, direct_fun, ensemble_fun, sample.percentage, iterati
     vars=list(direct_fun,"norm_mat","write_file","dir_direct_bootstrap","dir_direct_bootstrap_uppertri","pcor.shrink","space.joint","invcor.shrink","pc_stable","gaussCItest","getNextSet","udag2pdagRelaxed","idaFast")
     clusterExport(cl, vars, envir = .GlobalEnv)  
   }   
+  #print(data);
   result <- parLapply(cl, 1:iterations, funWrapper, fun, data, sample.percentage,params)	
   stopCluster(cl)
   # Run bootstrapping experiment

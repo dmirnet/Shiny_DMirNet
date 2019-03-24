@@ -25,14 +25,18 @@ result_analysis<-function(data_analysis, type, m,mirna,fname){
     result=Extopk_mimR(data_analysis,m,mirna)
     write_file(result,paste0(dir_analysis,"(top_m)Analysis_of_",fname))
     #write description
-    content=c(paste0("(top_m)Analysis_of_",fname,":- Analysis type=Select top m pairs",", top m=",m,",number of miRNAs=",mirna))
+    write_description_append(dir_analysis,"readme.txt","\nExperiment start--")
+    content=c(paste0("\n(top_m)Analysis_of_",fname,":- Analysis type=Select top m pairs",", top m=",m,",number of miRNAs=",mirna))
     write_description_append(dir_analysis,"readme.txt",content)
+    write_description_append(dir_analysis,"readme.txt","\n---end of experiment")
   }else{
     result=Extopk_mimR_miRk(data_analysis,m,mirna)
     write_file(result,paste0(dir_analysis,"(top_m_mRNA)Analysis_of_",fname))
     #write description
-    content=c(paste0("(top_m)Analysis_of_",fname,":- Analysis type=Select top m mRNAs for each miRNA",", top m= ",m,",number of miRNAs=",mirna))
+    write_description_append(dir_analysis,"readme.txt","\nExperiment start--")
+    content=c(paste0("\n(top_m)Analysis_of_",fname,":- Analysis type=Select top m mRNAs for each miRNA",", top m= ",m,",number of miRNAs=",mirna))
     write_description_append(dir_analysis,"readme.txt",content)
+    write_description_append(dir_analysis,"readme.txt","\n---end of experiment")
   }
 }
 

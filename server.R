@@ -3,7 +3,7 @@
 shinyServer(function(input, output,session) {
   #Observe Run Button
   observeEvent(input$run,{
-    tryCatch({
+   # tryCatch({
       #run progress
       withProgress(message = 'Computing DMirNet...', style="notification", value = 0.01, {
         #Get the values of input parameters
@@ -31,12 +31,10 @@ shinyServer(function(input, output,session) {
         }
         incProgress(0.3)
         progress_iteration=0.1
-        if(input$corpcor&&input$space&&input$corND&&input$ida){
+        if(input$corpcor&&input$space&&input$corND&&input$ida&&input$silencing){
+          progress_iteration=0.1
+        }else if((input$corpcor&&input$space&&input$corND&&input$silencing) || (input$space&&input$corND&&input$ida&&input$silencing) || (input$corpcor&&input$corND&&input$ida&&input$silencing) || (input$corpcor&&input$space&&input$corND&&input$ida) ){
           progress_iteration=0.13
-        }else if((input$corpcor&&input$space&&input$corND) || (input$space&&input$corND&&input$ida) || (input$corpcor&&input$corND&&input$ida) ){
-          progress_iteration=0.17
-        }else if((input$corpcor&&input$space)|| (input$corND&&input$ida)|| (input$corpcor&& input$corND) || (input$space&&input$ida)||(input$corpcor&&input$ida)||(input$space&&input$corND)){
-          progress_iteration=0.25
         }else {
           progress_iteration=0.5
         }
@@ -44,6 +42,8 @@ shinyServer(function(input, output,session) {
         data<<-Read_Scale(dataset,root_dir)
         ### Step 1. Perform experiment Direct corelation and bootstrapping ###
         #corpcor 
+        #write description
+        write_description_append(dir_direct_bootstrap,"readme.txt","\n Experiment Start--")
         if(input$corpcor){
           if(input$bootstrap_action=="Disable"){
             setProgress(value = NULL, message =NULL , detail = "Performing Corpcor Direct corelation",session = session)
@@ -56,7 +56,7 @@ shinyServer(function(input, output,session) {
             incProgress(progress_iteration)
           }
           #write description
-          content=c(paste0("Corpcor parameter setting:- lambda=",as.numeric(input$lambda)))
+          content=c(paste0("\nCorpcor parameter setting:-lambda=",as.numeric(input$lambda)))
           write_description_append(dir_direct_bootstrap,"readme.txt",content)
         }
         #Space
@@ -72,7 +72,7 @@ shinyServer(function(input, output,session) {
             incProgress(progress_iteration)
           }
           #write description
-          content=c(paste0("Space parameter setting:- lam1=",input$lam1,",lam2=",input$lam2,", weight=",input$w,",iteration=",input$iter))
+          content=c(paste0("\nSpace parameter setting:- lam1=",input$lam1,",lam2=",input$lam2,", weight=",input$w,",iteration=",input$iter))
           write_description_append(dir_direct_bootstrap,"readme.txt",content)
         }
         #CorND
@@ -88,7 +88,7 @@ shinyServer(function(input, output,session) {
             incProgress(progress_iteration)
           }
           #write description
-          content=c(paste0("CorND parameter setting:- alpha=",input$corND_alpha,", beta=",input$corND_beta))
+          content=c(paste0("\nCorND parameter setting:- alpha=",input$corND_alpha,", beta=",input$corND_beta))
           write_description_append(dir_direct_bootstrap,"readme.txt",content)
         }
         #IDA
@@ -103,20 +103,36 @@ shinyServer(function(input, output,session) {
             incProgress(progress_iteration)
           }
           #write description
-          content=c(paste0("IDA parameter setting:- alpha=",input$alpha_idea))
+          content=c(paste0("\nIDA parameter setting:- alpha=",input$alpha_idea))
           write_description_append(dir_direct_bootstrap,"readme.txt",content)
           incProgress(progress_iteration)
+        }
+        #Silencing
+        if(input$silencing){
+          if(input$bootstrap_action=="Disable"){
+            setProgress(value = NULL, message =NULL , detail = "Performing Silencing Direct corelation",session = session)
+            buildSilencing(data,input$silence_norm,input$silence_max,input$silence_min)
+            incProgress(progress_iteration)
+          }else{
+            setProgress(value = NULL, message =NULL , detail = "Bootstrapping with Silencing",session = session)
+            paramssil=c(input$silence_norm,input$silence_max,input$silence_min)
+            Silencing_bootstrap(data,input$bootstrap_method,iterations,sample.percentage,as.numeric(input$bootstrap_topk),paramssil)
+            incProgress(progress_iteration)
+          }
+          #write description
+          content=c(paste0("\nSilencing parameter setting:-Norm=",input$silence_norm,",Maximum=",input$silence_max,", Minimum=",input$silence_min))
+          write_description_append(dir_direct_bootstrap,"readme.txt",content)
         }
         #write description
         content=NULL
         if(input$bootstrap_action!="Disable"){
           if(input$bootstrap_method=="bootstrap_irm_median"||input$bootstrap_method=="bootstrap_irm_mean"){
-            content=c(paste0("Bootstrapping parameter setting:- Bootstrapping method=",input$bootstrap_method,", Iteration=",iterations,", Sample Rate(%)=",input$rate))
+            content=c(paste0("\nBootstrapping parameter setting:- Bootstrapping method=",input$bootstrap_method,", Iteration=",iterations,", Sample Rate(%)=",input$rate))
           }else{
-            content=c(paste0("Bootstrapping parameter setting:- Bootstrapping method=",input$bootstrap_method,", Iteration=",iterations,", Sample Rate(%)=",input$rate,", topk=",as.numeric(input$bootstrap_topk)))
+            content=c(paste0("\nBootstrapping parameter setting:- Bootstrapping method=",input$bootstrap_method,", Iteration=",iterations,", Sample Rate(%)=",input$rate,", topk=",as.numeric(input$bootstrap_topk)))
           }
         }
-        content=c(content,"-------------------------------------------------------")
+        content=c(content,"\n---end of experiment.")
         write_description_append(dir_direct_bootstrap,"readme.txt",content)
         #Result show
         setProgress(value = NULL, message =NULL , detail = "Preparing Result",session = session)
@@ -159,7 +175,7 @@ shinyServer(function(input, output,session) {
       if(input$tabpanel=="Ensemble"){
         if(input$wd_list=="New Experiment" || input$wd_list=="None"){  
           updateRadioButtons(session,'ensemble_result_list',NULL,choices =list("None"),selected = FALSE)
-          updateTextAreaInput(session,"ensemble_readme","Expernment Description",value = "-")
+          updateTextAreaInput(session,"ensemble_readme","Experiment Description",value = "-")
           updateTextInput(session,"ensemble_prev_file","File",value = "-")
           updateCheckboxGroupInput(session,'ag_list',NULL,choices =list("NULL")) 
           output$table_ensemble_result <- DT::renderDataTable(DT::datatable({NULL}))
@@ -346,8 +362,10 @@ shinyServer(function(input, output,session) {
         incProgress(0.5)
         result_validation(data_validation,dataset_validation,input$validation_file)
         #write description
-        content=c(paste0("Validation_of_",input$validation_file,":-Data used for Result Validation=",val_dataset_name))
+        write_description_append(dir_validation,"readme.txt","\n Experiment Start--")
+        content=c(paste0("\nValidation_of_",input$validation_file,":-Data used for Result Validation=",val_dataset_name))
         write_description_append(dir_validation,"readme.txt",content)
+        write_description_append(dir_validation,"readme.txt","\n---end of experiment")
         setwd(temp)
         setProgress(value = NULL, message =NULL , detail = "Preparing Result",session = session)
         result_show("tab4")
@@ -551,7 +569,7 @@ shinyServer(function(input, output,session) {
     }
   })
   #Observer for Direct Correlation Methods selections
-  observeEvent(c(input$corpcor,input$space,input$corND,input$ida,input$bootstrap_method,input$ensemble,input$ag_list,input$analysis_file,input$validation_file,input$validationdata),{
+  observeEvent(c(input$corpcor,input$space,input$corND,input$ida,input$silencing,input$bootstrap_method,input$ensemble,input$ag_list,input$analysis_file,input$validation_file,input$validationdata),{
     #Upon selection show input parameters of Direct Association Methods 
     if(input$corpcor){
       shinyjs::show("divcorp")
@@ -584,7 +602,12 @@ shinyServer(function(input, output,session) {
     }else{
       shinyjs::hide("divida")
     }
-    if(!input$space&&!input$corpcor&&!input$ida&&!input$corND){
+    if(input$silencing){
+      shinyjs::show("divsilence")
+    }else{
+      shinyjs::hide("divsilence")
+    }
+    if(!input$space&&!input$corpcor&&!input$ida&&!input$corND&&!input$silencing){
       disable("run")
     }else{
       enable("run")

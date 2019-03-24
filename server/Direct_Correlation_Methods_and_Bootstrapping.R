@@ -131,6 +131,87 @@ buildIDA <- function(data, alpha,write_output=1){
   }
   return(result)
 }
+
+#build Silencing 
+#build space
+buildSilencing <- function(data,Norm,Maximum,Minimum,write_output=1){
+  
+  G <- cor(data, method="spearman")
+  
+  # Step 1 - Preprocessing 
+  #print("Preprocessing. Checking singularity of G")
+  N <- nrow(G)
+  R <- qr(G)$rank
+  Go <- G - diag(1,N)
+  #R <- N 
+  if (R<N) {# G matrix is singular ==> Renormalizing off-diagonal terms
+    #print("G matrix is singular - renormalizing off-diagonal terms")
+    Go <- Go * Norm
+  }
+  
+  
+  # Step 2 - Silencing
+  
+  MaxValue <- 2
+  n <- 1
+  alpha <- 1 # alpha = the final normalizing factor Go ---> alpha * Go
+  
+  while(MaxValue <= Minimum || MaxValue >= Maximum){
+    G1 = Go + diag(1,N)
+    
+    D <- Go %*% G1
+    i <- 1
+    while(i >=1 && i<=N){
+      j <- i+1
+      while(j >=i+1 && j<=N){
+        D[i,j] = 0
+        D[j,i] = 0
+        j=j+1
+      }
+      i=i+1
+    }
+    
+    MaxDiag <- max(max(abs(D)))
+    #print("Maximum of Diagonal is Dmax = ")
+    #print(MaxDiag)
+    S <- (Go +D) %*% solve(G1, tol=1e-25)
+    #print("Obtaining spectrum of S.")
+    
+    LS <- eigen(S)$values
+    LS <- diag(LS)
+    MaxValue <- max(abs(LS))
+    #print("Maximum eigen value of S is Ls = ") 
+    #print(MaxValue)
+    
+    if (MaxValue > Minimum && MaxValue < Maximum){
+      print("Silencing done. Off-diagonal terms of G were renormalized by alpha = ") 
+      print(alpha)
+    } else{
+      # We renormalize off-diagonal terms. The greater is the difference
+      # between MaxValue and the desired range, the smaller is Norm
+      Norm = 1 / (sqrt(MaxValue / (0.5 * (Maximum + Minimum))))
+      #print("Renormalizing G for next iteration. Norm = ")
+      #print(Norm)
+      Go = Go * Norm;
+      alpha = alpha * Norm;
+    }
+    
+    n <- n+1
+  }
+  # Step 3 - POSTPROCESSING
+  # Linearly mapping the IDA result to be between -1 and 1
+  result <- norm_mat(S)
+  colnames(result)=colnames(data)
+  rownames(result)=colnames(data)
+  Result_Silencing <- data.matrix(result)
+  if(write_output==1){
+    Result_Silencing_uppertri=Result_Silencing[upper.tri(Result_Silencing)]
+    write_file(Result_Silencing,paste0(dir_direct_bootstrap,"Silencing_Result.csv"))
+    write_file(Result_Silencing_uppertri,paste0(dir_direct_bootstrap_uppertri,"Silencing_Result.csv"))
+  }
+  return(result)
+}
+
 #Bootstrapping of Direct Correlation Results
 #corpcor
 corpcor_bootstrap<-function (data,bootstrap_type,iterations,sample.percentage,topk,params){
@@ -167,6 +248,15 @@ IDA_bootstrap<-function (data,bootstrap_type,iterations,sample.percentage,topk,p
   Result_uppertri=Result[upper.tri(Result)]
   write_file(Result,paste0(dir_direct_bootstrap,"IDA_",bootstrap_type,"_Result.csv"))
   write_file(Result_uppertri,paste0(dir_direct_bootstrap_uppertri,"IDA_",bootstrap_type,"_Result.csv"))
+  return(Result)
+}
+#Silencing
+Silencing_bootstrap<-function (data,bootstrap_type,iterations,sample.percentage,topk,params){
+  boot<- bootstrap(data,"buildSilencing" ,bootstrap_type, sample.percentage, iterations,topk,params)
+  Result <- uptri2mat(colnames(data), boot)
+  Result_uppertri=Result[upper.tri(Result)]
+  write_file(Result,paste0(dir_direct_bootstrap,"Silencing_",bootstrap_type,"_Result.csv"))
+  write_file(Result_uppertri,paste0(dir_direct_bootstrap_uppertri,"Silencing_",bootstrap_type,"_Result.csv"))
   return(Result)
 }
 
