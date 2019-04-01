@@ -1,5 +1,5 @@
-# setting this option. Here we'll raise limit to 90MB.
-options(shiny.maxRequestSize = 90*1024^2)
+# setting this option. Here we'll raise limit to 1GB
+options(shiny.maxRequestSize = 100*1024^2)
 ## Define server logic required
 shinyServer(function(input, output,session) {
   #Observe Run Button
